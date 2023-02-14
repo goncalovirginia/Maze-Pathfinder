@@ -1,0 +1,88 @@
+html,
+body {
+	text-align: center;
+	font-family: Helvetica;
+	color: rgb(255, 255, 255);
+	background-color: rgb(15, 15, 15);
+}
+
+.goodButton {
+	background-color: #f5f5f5;
+	box-shadow: 0 4px 0 #858585;
+	font-family: Helvetica;
+	font-size: 16px;
+	height: 44px;
+	width: 100px;
+	margin: 5px;
+	border: 0px;
+	padding: 0px;
+	border-radius: 12px;
+	cursor: pointer;
+	transform: translateY(-2px);
+	font-weight: bold;
+}
+
+.goodButton:active {
+	transform: translateY(2px);
+	box-shadow: none;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.nodeTable {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	border-collapse: collapse;
+}
+
+.node {
+	padding: 0px;
+	margin: 0px;
+	border: 1px solid rgb(128, 128, 128);
+	height: 30px;
+	width: 30px;
+	min-height: 30px;
+	min-width: 30px;
+}
+
+.node:hover {
+	background-color: rgb(64, 64, 64);
+}
+
+#startNode {
+	background-color: rgb(61, 219, 29);
+}
+
+#startNode:hover {
+	background-color: rgb(43, 255, 0);
+}
+
+#endNode {
+	background-color: rgb(211, 33, 33);
+}
+
+#endNode:hover {
+	background-color: rgb(255, 0, 0);
+}
+
+.visited {
+	background-color: rgb(42, 107, 192);
+	transition: background-color 0.25s linear;
+}
+
+.path {
+	background-color: purple;
+}
+
+.wall {
+	background-color: rgb(201, 201, 201);
+}
