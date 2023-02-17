@@ -82,13 +82,16 @@ body {
 	background-color: rgb(255, 0, 0);
 }
 
-.visited {
-	background-color: #00bbf0;
-	transition: background-color 0.25s linear;
+.frontier {
+	background-color: #8cb4ff;
+}
+
+.expanded {
+	background-color: #4b7afd;
 }
 
 .path {
-	background-color: #fdb44b;
+	background-color: #FFD700;
 }
 
 .wall {

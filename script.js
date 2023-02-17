@@ -133,7 +133,7 @@ async function bfs() {
 
 	while (queue.length > 0) {
 		let currentCoords = queue.shift();
-		nodeMatrix.get(currentCoords).classList.add("visited");
+		nodeMatrix.get(currentCoords).classList.add("expanded");
 
 		if (currentCoords.equals(endCoords)) {
 			await backtrace(parent, currentCoords);
@@ -146,6 +146,7 @@ async function bfs() {
 				queue.push(neighborCoords);
 				visitedMatrix.set(neighborCoords, true);
 				parent.set(neighborCoords, currentCoords);
+				nodeMatrix.get(neighborCoords).classList.add("frontier");
 			}
 		}
 		await sleep(delay);
@@ -157,7 +158,7 @@ async function dfs() {
 
 	while (stack.length > 0) {
 		let currentCoords = stack.pop();
-		nodeMatrix.get(currentCoords).classList.add("visited");
+		nodeMatrix.get(currentCoords).classList.add("expanded");
 
 		if (currentCoords.equals(endCoords)) {
 			await backtrace(parent, currentCoords);
@@ -170,6 +171,7 @@ async function dfs() {
 				stack.push(neighborCoords);
 				visitedMatrix.set(neighborCoords, true);
 				parent.set(neighborCoords, currentCoords);
+				nodeMatrix.get(neighborCoords).classList.add("frontier");
 			}
 		}
 		await sleep(delay);
@@ -210,7 +212,8 @@ function clearGrid() {
 
 	for (let row of nodeMatrix.matrix) {
 		for (let node of row) {
-			node.classList.remove('visited');
+			node.classList.remove('frontier');
+			node.classList.remove('expanded');
 			node.classList.remove('wall');
 			node.classList.remove('path');
 		}
