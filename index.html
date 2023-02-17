@@ -10,10 +10,16 @@
 
 <body>
 	<h1>Maze Pathfinder</h1>
+	<select class="goodSelect" id="selectAlgorithm">
+		<option value="bfs">Breadth-First Search</option>
+		<option value="dfs">Depth-First Search</option>
+		<option value="a*">A*</option>
+	</select>
 	<button class="goodButton" id="startButton">START</button>
 	<button class="goodButton" id="resetButton">RESET</button>
 	<table class="nodeTable" id="nodeTable"></table>
-	<script src="script.js"></script>
+	<script src="astar.js"></script>
+	<script type="module" src="script.js"></script>
 </body>
 
 </html>

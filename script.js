@@ -1,6 +1,9 @@
+import "./astar.js";
+
 const grid = document.getElementById('nodeTable');
 const startButton = document.getElementById('startButton');
 const resetButton = document.getElementById('resetButton');
+const selectAlgorithm = document.getElementById('selectAlgorithm');
 
 startButton.addEventListener("click", startSearch);
 resetButton.addEventListener("click", clearGrid);
@@ -22,6 +25,34 @@ class Coords {
 
 }
 
+class Matrix {
+
+	constructor() {
+		this.matrix = new Array(rows);
+
+		for (let i = 0; i < rows; i++) {
+			this.matrix[i] = new Array(cols);
+		}
+	}
+
+	get(coords) {
+		return this.matrix[coords.row][coords.col];
+	}
+
+	set(coords, value) {
+		this.matrix[coords.row][coords.col] = value;
+	}
+
+	get2(row, col) {
+		return this.matrix[row][col];
+	}
+
+	set2(row, col, value) {
+		this.matrix[row][col] = value;
+	}
+
+}
+
 let mouseIsPressed = false;
 
 let delay = 4;
@@ -29,14 +60,9 @@ let executing = false;
 let needsClear = false;
 
 let rows = 20, cols = 40;
-let nodeMatrix = new Array(rows), visitedMatrix = new Array(rows);
+let nodeMatrix = new Matrix(), visitedMatrix = new Matrix(), wallMatrix = new Matrix();
 
-let selectedAlgorithm = "bfs";
-
-for (let i = 0; i < rows; i++) {
-	nodeMatrix[i] = new Array(cols);
-	visitedMatrix[i] = new Array(cols);
-}
+resetMatrixes();
 
 for (let i = 0; i < rows; i++) {
 	let row = document.createElement('tr');
@@ -45,12 +71,12 @@ for (let i = 0; i < rows; i++) {
 		node.setAttribute("class", "node");
 		node.addEventListener("mouseover", addWallClassToNode);
 		row.appendChild(node);
-		nodeMatrix[i][j] = node;
+		nodeMatrix.set2(i, j, node);
 	}
 	grid.appendChild(row);
 }
 
-let startCoords = new Coords(10, 10), endCoords = new Coords(rows-2, cols-2);
+let startCoords = new Coords(10, 10), endCoords = new Coords(rows - 2, cols - 2);
 updateStartAndEndNodes();
 
 function setMouseIsPressed(e) {
@@ -61,60 +87,102 @@ function setMouseIsPressed(e) {
 function addWallClassToNode() {
 	if (!mouseIsPressed || event.target.id == "startNode" || event.target.id == "endNode") return;
 	event.target.classList.add("wall");
+	wallMatrix.set2(event.target.closest("tr").rowIndex, event.target.cellIndex, 0);
 }
 
 function updateStartAndEndNodes() {
-	nodeMatrix[startCoords.row][startCoords.col].setAttribute("id", "startNode");
-	nodeMatrix[endCoords.row][endCoords.col].setAttribute("id", "endNode");
+	nodeMatrix.get(startCoords).setAttribute("id", "startNode");
+	nodeMatrix.get(endCoords).setAttribute("id", "endNode");
 }
 
-function resetVisitedMatrix() {
+function resetMatrixes() {
 	for (let i = 0; i < rows; i++) {
 		for (let j = 0; j < cols; j++) {
-			visitedMatrix[i][j] = false;
+			visitedMatrix.set2(i, j, false);
+			wallMatrix.set2(i, j, 1);
 		}
 	}
 }
 
-function startSearch() {
+async function startSearch() {
 	if (needsClear) return;
 
 	executing = true;
-	switch (selectedAlgorithm) {
+	visitedMatrix.set(startCoords, true);
+
+	switch (selectAlgorithm.value) {
 		case "bfs":
-			bfs();
+			await bfs();
+			break;
+		case "dfs":
+			await dfs();
+			break;
+		case "a*":
+			await aStar();
 			break;
 		default:
 			alert("Somehow no search algorithm was selected.")
 	}
+
+	executing = false;
+	needsClear = true;
 }
 
 async function bfs() {
-	resetVisitedMatrix();
 	let queue = [startCoords], parent = new Map();
-	visitedMatrix[startCoords.row][startCoords.col] = true;
 
 	while (queue.length > 0) {
 		let currentCoords = queue.shift();
+		nodeMatrix.get(currentCoords).classList.add("visited");
 
 		if (currentCoords.equals(endCoords)) {
-			backtrace(parent, currentCoords);
+			await backtrace(parent, currentCoords);
 			break;
 		}
 
 		for (let neighborCoords of getNeighborsCoords(currentCoords)) {
-			if (!visitedMatrix[neighborCoords.row][neighborCoords.col] &&
-				!nodeMatrix[neighborCoords.row][neighborCoords.col].classList.contains("wall")) {
+			if (!visitedMatrix.get(neighborCoords) &&
+				!nodeMatrix.get(neighborCoords).classList.contains("wall")) {
 				queue.push(neighborCoords);
-				nodeMatrix[neighborCoords.row][neighborCoords.col].classList.add("visited");
-				visitedMatrix[neighborCoords.row][neighborCoords.col] = true;
+				visitedMatrix.set(neighborCoords, true);
 				parent.set(neighborCoords, currentCoords);
 			}
 		}
 		await sleep(delay);
 	}
-	executing = false;
-	needsClear = true;
+}
+
+async function dfs() {
+	let stack = [startCoords], parent = new Map();
+
+	while (stack.length > 0) {
+		let currentCoords = stack.pop();
+		nodeMatrix.get(currentCoords).classList.add("visited");
+
+		if (currentCoords.equals(endCoords)) {
+			await backtrace(parent, currentCoords);
+			break;
+		}
+
+		for (let neighborCoords of getNeighborsCoords(currentCoords)) {
+			if (!visitedMatrix.get(neighborCoords) &&
+				!nodeMatrix.get(neighborCoords).classList.contains("wall")) {
+				stack.push(neighborCoords);
+				visitedMatrix.set(neighborCoords, true);
+				parent.set(neighborCoords, currentCoords);
+			}
+		}
+		await sleep(delay);
+	}
+}
+
+async function aStar() {
+	let graph = new Graph(wallMatrix.matrix);
+	let start = graph.grid[startCoords.row][startCoords.col];
+	let end = graph.grid[endCoords.row][endCoords.col];
+	let path = await astar.search(graph, start, end);
+	path = Array.from(path, gridNode => new Coords(gridNode.x, gridNode.y));
+	drawPath(path);
 }
 
 function getNeighborsCoords(currentCoords) {
@@ -122,16 +190,16 @@ function getNeighborsCoords(currentCoords) {
 	let row = currentCoords.row, col = currentCoords.col;
 
 	if (row > 0) {
-		neighborsCoords.push(new Coords(row-1, col));
+		neighborsCoords.push(new Coords(row - 1, col));
 	}
-	if (row < rows-1) {
-		neighborsCoords.push(new Coords(row+1, col));
+	if (row < rows - 1) {
+		neighborsCoords.push(new Coords(row + 1, col));
 	}
 	if (col > 0) {
-		neighborsCoords.push(new Coords(row, col-1));
+		neighborsCoords.push(new Coords(row, col - 1));
 	}
-	if (col < cols-1) {
-		neighborsCoords.push(new Coords(row, col+1));
+	if (col < cols - 1) {
+		neighborsCoords.push(new Coords(row, col + 1));
 	}
 
 	return neighborsCoords;
@@ -140,7 +208,7 @@ function getNeighborsCoords(currentCoords) {
 function clearGrid() {
 	if (executing) return;
 
-	for (let row of nodeMatrix) {
+	for (let row of nodeMatrix.matrix) {
 		for (let node of row) {
 			node.classList.remove('visited');
 			node.classList.remove('wall');
@@ -148,6 +216,7 @@ function clearGrid() {
 		}
 	}
 
+	resetMatrixes();
 	needsClear = false;
 }
 
@@ -156,15 +225,18 @@ function sleep(ms) {
 }
 
 async function backtrace(parent, lastCoords) {
-    let path = [lastCoords];
+	let path = [lastCoords];
 
-    while (!path[path.length-1].equals(startCoords)) {
-		path.push(parent.get(path[path.length-1]));
+	while (!path[path.length - 1].equals(startCoords)) {
+		path.push(parent.get(path[path.length - 1]));
 	}
 
-    for (let i = path.length-1; i >= 0; i--) {
-		let nodeCoords = path[i];
-		nodeMatrix[nodeCoords.row][nodeCoords.col].classList.add("path");
+	drawPath(path.reverse());
+}
+
+async function drawPath(path) {
+	for (let node of path) {
+		nodeMatrix.get(node).classList.add("path");
 		await sleep(10);
 	}
 }
