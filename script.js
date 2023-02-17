@@ -59,7 +59,7 @@ let delay = 4;
 let executing = false;
 let needsClear = false;
 
-let rows = 20, cols = 40;
+let rows = 35, cols = 80;
 let nodeMatrix = new Matrix(), visitedMatrix = new Matrix(), wallMatrix = new Matrix();
 
 resetMatrixes();
@@ -76,7 +76,7 @@ for (let i = 0; i < rows; i++) {
 	grid.appendChild(row);
 }
 
-let startCoords = new Coords(10, 10), endCoords = new Coords(rows - 2, cols - 2);
+let startCoords = new Coords(10, 10), endCoords = new Coords(rows - 10, cols - 10);
 updateStartAndEndNodes();
 
 function setMouseIsPressed(e) {
