@@ -52,10 +52,18 @@ body {
 	border-collapse: collapse;
 }
 
+.even {
+	background-color: rgb(25, 25, 25);
+}
+
+.odd {
+	background-color: rgb(50, 50, 50);
+}
+
 .node {
 	padding: 0px;
 	margin: 0px;
-	border: 1px solid rgb(128, 128, 128);
+	border: none;
 	height: 20px;
 	width: 20px;
 	min-height: 20px;
@@ -95,5 +103,5 @@ body {
 }
 
 .wall {
-	background-color: rgb(201, 201, 201);
+	background-color: rgb(226, 226, 226);
 }

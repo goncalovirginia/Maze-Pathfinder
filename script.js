@@ -68,7 +68,8 @@ for (let i = 0; i < rows; i++) {
 	let row = document.createElement('tr');
 	for (let j = 0; j < cols; j++) {
 		let node = document.createElement('td');
-		node.setAttribute("class", "node");
+		node.classList.add("node");
+		(i + j) % 2 == 0 ? node.classList.add("even") : node.classList.add("odd");
 		node.addEventListener("mouseover", addWallClassToNode);
 		row.appendChild(node);
 		nodeMatrix.set2(i, j, node);
