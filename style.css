@@ -95,13 +95,13 @@ body {
 .frontier {
 	border-radius: 40%;
 	background-color: #8cb4ff;
-	transition: border-radius 0.25s ease-out;
+	transition: border-radius 0.1s ease-out;
 }
 
 .expanded {
 	border-radius: 40%;
 	background-color: #4b7afd;
-	transition: border-radius 0.25s ease-out;
+	transition: border-radius 0.1s ease-out;
 }
 
 .path {

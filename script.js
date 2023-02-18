@@ -119,7 +119,13 @@ async function startSearch() {
 			await dfs();
 			break;
 		case "a*":
-			await aStar();
+			await aStar(astar.heuristics.manhattan);
+			break;
+		case "a*tie":
+			await aStar(astar.heuristics.manhattanTieBreaker);
+			break;	
+		case "a*cross":
+			await aStar(astar.heuristics.crossProduct);
 			break;
 		default:
 			alert("Somehow no search algorithm was selected.")
@@ -179,11 +185,11 @@ async function dfs() {
 	}
 }
 
-async function aStar() {
+async function aStar(heuristic) {
 	let graph = new Graph(wallMatrix.matrix);
 	let start = graph.grid[startCoords.row][startCoords.col];
 	let end = graph.grid[endCoords.row][endCoords.col];
-	let path = await astar.search(graph, start, end);
+	let path = await astar.search(graph, start, end, {heuristic});
 	path = Array.from(path, gridNode => new Coords(gridNode.x, gridNode.y));
 	drawPath(path);
 }

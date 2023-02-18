@@ -21,7 +21,10 @@ function getHeap() {
 	});
 }
 
+let globalStart;
+
 var astar = {
+
 	/**
 	* Perform an A* Search on a graph given a start and end node.
 	* @param {Graph} graph
@@ -34,6 +37,7 @@ var astar = {
 	*          astar.heuristics).
 	*/
 	search: async function (graph, start, end, options) {
+		globalStart = start;
 		graph.cleanDirty();
 		options = options || {};
 		var heuristic = options.heuristic || astar.heuristics.manhattan;
@@ -120,6 +124,21 @@ var astar = {
 			var d1 = Math.abs(pos1.x - pos0.x);
 			var d2 = Math.abs(pos1.y - pos0.y);
 			return d1 + d2;
+		},
+		manhattanTieBreaker: function (pos0, pos1) {
+			var d1 = Math.abs(pos1.x - pos0.x);
+			var d2 = Math.abs(pos1.y - pos0.y);
+			return (d1 + d2) * 1.001;
+		},
+		crossProduct: function (pos0, pos1) {
+			manhattanDistance = astar.heuristics.manhattan(pos0, pos1);
+
+			dx1 = pos0.x - pos1.x;
+			dy1 = pos0.y - pos1.y;
+			dx2 = globalStart.x - pos1.x;
+			dy2 = globalStart.y - pos1.y;
+			cross = Math.abs(dx1 * dy2 - dx2 * dy1);
+			return manhattanDistance + (cross * 0.001);
 		},
 		diagonal: function (pos0, pos1) {
 			var D = 1;
