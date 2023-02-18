@@ -130,7 +130,7 @@ var astar = {
 			var d2 = Math.abs(pos1.y - pos0.y);
 			return (d1 + d2) * 1.001;
 		},
-		crossProduct: function (pos0, pos1) {
+		manhattanCrossProduct: function (pos0, pos1) {
 			manhattanDistance = astar.heuristics.manhattan(pos0, pos1);
 
 			dx1 = pos0.x - pos1.x;

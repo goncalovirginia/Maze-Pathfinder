@@ -125,7 +125,7 @@ async function startSearch() {
 			await aStar(astar.heuristics.manhattanTieBreaker);
 			break;	
 		case "a*cross":
-			await aStar(astar.heuristics.crossProduct);
+			await aStar(astar.heuristics.manhattanCrossProduct);
 			break;
 		default:
 			alert("Somehow no search algorithm was selected.")
