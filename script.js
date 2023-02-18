@@ -121,8 +121,8 @@ async function startSearch() {
 		case "a*":
 			await aStar(astar.heuristics.manhattan);
 			break;
-		case "a*tie":
-			await aStar(astar.heuristics.manhattanTieBreaker);
+		case "a*constant":
+			await aStar(astar.heuristics.manhattanConstant);
 			break;	
 		case "a*cross":
 			await aStar(astar.heuristics.manhattanCrossProduct);
