@@ -8,8 +8,6 @@ const selectAlgorithm = document.getElementById('selectAlgorithm');
 startButton.addEventListener("click", startSearch);
 resetButton.addEventListener("click", clearGrid);
 
-window.addEventListener("mousemove", setMouseIsPressed);
-
 class Coords {
 
 	constructor(row, col) {
@@ -51,8 +49,6 @@ class Matrix {
 
 }
 
-let mouseIsPressed = false;
-
 let delay = 4;
 let executing = false;
 let needsClear = false;
@@ -68,6 +64,7 @@ for (let i = 0; i < rows; i++) {
 		let node = document.createElement('td');
 		node.classList.add("node");
 		(i + j) % 2 == 0 ? node.classList.add("even") : node.classList.add("odd");
+		node.addEventListener("mousedown", addWallClassToNode);
 		node.addEventListener("mouseover", addWallClassToNode);
 		row.appendChild(node);
 		nodeMatrix.set2(i, j, node);
@@ -78,13 +75,13 @@ for (let i = 0; i < rows; i++) {
 let startCoords = new Coords(10, 10), endCoords = new Coords(rows - 10, cols - 10);
 updateStartAndEndNodes();
 
-function setMouseIsPressed(e) {
+function mouseIsPressed(e) {
 	let flags = e.buttons !== undefined ? e.buttons : e.which;
-	mouseIsPressed = (flags & 1) === 1;
+	return (flags & 1) === 1;
 }
 
-function addWallClassToNode() {
-	if (!mouseIsPressed || event.target.id == "startNode" || event.target.id == "endNode") return;
+function addWallClassToNode(e) {
+	if (!mouseIsPressed(e) || event.target.id == "startNode" || event.target.id == "endNode") return;
 	event.target.classList.add("wall");
 	wallMatrix.set2(event.target.closest("tr").rowIndex, event.target.cellIndex, 0);
 }
@@ -96,10 +93,8 @@ function updateStartAndEndNodes() {
 
 function resetMatrixes() {
 	for (let i = 0; i < rows; i++) {
-		for (let j = 0; j < cols; j++) {
-			visitedMatrix.set2(i, j, false);
-			wallMatrix.set2(i, j, 1);
-		}
+		visitedMatrix.matrix[i].fill(false);
+		wallMatrix.matrix[i].fill(1);
 	}
 }
 
@@ -141,7 +136,7 @@ async function bfs() {
 		nodeMatrix.get(currentCoords).classList.add("expanded");
 
 		if (currentCoords.equals(endCoords)) {
-			await backtrace(parent, currentCoords);
+			await drawPath(backtrace(parent, currentCoords));
 			break;
 		}
 
@@ -166,7 +161,7 @@ async function dfs() {
 		nodeMatrix.get(currentCoords).classList.add("expanded");
 
 		if (currentCoords.equals(endCoords)) {
-			await backtrace(parent, currentCoords);
+			await drawPath(backtrace(parent, currentCoords));
 			break;
 		}
 
@@ -189,7 +184,7 @@ async function aStar(heuristic) {
 	let end = graph.grid[endCoords.row][endCoords.col];
 	let path = await astar.search(graph, start, end, {heuristic});
 	path = Array.from(path, gridNode => new Coords(gridNode.x, gridNode.y));
-	drawPath(path);
+	await drawPath(path);
 }
 
 function getNeighborsCoords(currentCoords) {
@@ -217,10 +212,7 @@ function clearGrid() {
 
 	for (let row of nodeMatrix.matrix) {
 		for (let node of row) {
-			node.classList.remove('frontier');
-			node.classList.remove('expanded');
-			node.classList.remove('wall');
-			node.classList.remove('path');
+			node.classList.remove("frontier", "expanded", "wall", "path");
 		}
 	}
 
@@ -232,14 +224,14 @@ function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function backtrace(parent, lastCoords) {
+function backtrace(parent, lastCoords) {
 	let path = [lastCoords];
 
 	while (!path[path.length - 1].equals(startCoords)) {
 		path.push(parent.get(path[path.length - 1]));
 	}
 
-	drawPath(path.reverse());
+	return path.reverse();
 }
 
 async function drawPath(path) {
