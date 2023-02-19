@@ -8,9 +8,7 @@ const selectAlgorithm = document.getElementById('selectAlgorithm');
 startButton.addEventListener("click", startSearch);
 resetButton.addEventListener("click", clearGrid);
 
-document.addEventListener("mousedown", setMouseIsPressed);
-document.addEventListener("mousemove", setMouseIsPressed);
-document.addEventListener("mouseup", setMouseIsPressed);
+window.addEventListener("mousemove", setMouseIsPressed);
 
 class Coords {
 
@@ -81,7 +79,7 @@ let startCoords = new Coords(10, 10), endCoords = new Coords(rows - 10, cols - 1
 updateStartAndEndNodes();
 
 function setMouseIsPressed(e) {
-	var flags = e.buttons !== undefined ? e.buttons : e.which;
+	let flags = e.buttons !== undefined ? e.buttons : e.which;
 	mouseIsPressed = (flags & 1) === 1;
 }
 

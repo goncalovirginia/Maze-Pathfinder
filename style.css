@@ -6,13 +6,21 @@ body {
 	background-color: rgb(15, 15, 15);
 }
 
+#inputs {
+	display: flex;
+	align-items: center;
+ 	justify-content: center;
+}
+
 .goodButton {
 	background-color: #f5f5f5;
 	box-shadow: 0 4px 0 #858585;
 	font-family: Helvetica;
 	font-size: 16px;
 	height: 44px;
+	min-height: 44px;
 	width: 100px;
+	min-width: 100px;
 	margin: 5px;
 	border: 0px;
 	padding: 0px;
@@ -20,6 +28,7 @@ body {
 	cursor: pointer;
 	transform: translateY(-2px);
 	font-weight: bold;
+	user-select: none;
 }
 
 .goodButton:active {
@@ -38,26 +47,25 @@ body {
 	padding: 0px;
 	cursor: pointer;
 	font-weight: bold;
+	user-select: none;
 }
 
 .goodSelect:focus {
 	outline: none;
 }
 
-.nodeTable {
-	margin-left: auto;
-	margin-right: auto;
+#nodeTableContainer {
+	display: flex;
+	align-items: center;
+ 	justify-content: center;
 	margin-top: 40px;
 	margin-bottom: 40px;
+	user-select: none;
+}
+
+.nodeTable {
 	border-collapse: collapse;
-}
-
-.even {
-	background-color: rgb(25, 25, 25);
-}
-
-.odd {
-	background-color: rgb(50, 50, 50);
+	user-select: none;
 }
 
 .node {
@@ -71,7 +79,15 @@ body {
 }
 
 .node:hover {
-	background-color: rgb(64, 64, 64);
+	filter: brightness(3);
+}
+
+.even {
+	background-color: rgb(25, 25, 25);
+}
+
+.odd {
+	background-color: rgb(50, 50, 50);
 }
 
 #startNode {
@@ -79,17 +95,9 @@ body {
 	background-color: rgb(0, 200, 0);
 }
 
-#startNode:hover {
-	background-color: rgb(0, 255, 0);
-}
-
 #endNode {
 	border-radius: 0%;
 	background-color: rgb(200, 0, 0);
-}
-
-#endNode:hover {
-	background-color: rgb(255, 0, 0);
 }
 
 .frontier {
