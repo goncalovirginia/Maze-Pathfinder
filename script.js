@@ -246,6 +246,7 @@ async function drawPath(path) {
 }
 
 function generateMaze() {
+	if (executing) return;
 	resetGrid();
 
 	let wmm = wallMatrix.matrix = wilsonsAlgorithm(rows, cols);
