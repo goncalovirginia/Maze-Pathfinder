@@ -92,9 +92,10 @@ function updateStartAndEndNodes() {
 }
 
 function resetMatrixes() {
+	let vmm = visitedMatrix.matrix, wmm = wallMatrix.matrix;
 	for (let i = 0; i < rows; i++) {
-		visitedMatrix.matrix[i].fill(false);
-		wallMatrix.matrix[i].fill(1);
+		vmm[i].fill(false);
+		wmm[i].fill(1);
 	}
 }
 
