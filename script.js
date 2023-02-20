@@ -1,12 +1,15 @@
 import "./astar.js";
+import "./wilsons-algorithm.js";
 
 const grid = document.getElementById('nodeTable');
 const startButton = document.getElementById('startButton');
 const resetButton = document.getElementById('resetButton');
 const selectAlgorithm = document.getElementById('selectAlgorithm');
+const generateMazeButton = document.getElementById('generateMazeButton');
 
 startButton.addEventListener("click", startSearch);
 resetButton.addEventListener("click", resetGrid);
+generateMazeButton.addEventListener("click", generateMaze);
 
 class Coords {
 
@@ -53,7 +56,7 @@ let delay = 4;
 let executing = false;
 let needsClear = false;
 
-let rows = 35, cols = 80;
+let rows = 35, cols = 81;
 let nodeMatrix = new Matrix(), visitedMatrix = new Matrix(), wallMatrix = new Matrix();
 
 resetMatrixes();
@@ -72,7 +75,7 @@ for (let i = 0; i < rows; i++) {
 	grid.appendChild(row);
 }
 
-let startCoords = new Coords(10, 10), endCoords = new Coords(rows - 10, cols - 10);
+let startCoords = new Coords(1, 1), endCoords = new Coords(rows - 2, cols - 2);
 updateStartAndEndNodes();
 
 function mouseIsPressed(e) {
@@ -239,5 +242,20 @@ async function drawPath(path) {
 	for (let node of path) {
 		nodeMatrix.get(node).classList.add("path");
 		await sleep(10);
+	}
+}
+
+function generateMaze() {
+	resetGrid();
+
+	let wmm = wallMatrix.matrix = wilsonsAlgorithm(rows, cols);
+	let nmm = nodeMatrix.matrix;
+
+	for (let row = 0; row < rows; row++) {
+		for (let col = 0; col < cols; col++) {
+			if (wmm[row][col] == 0) {
+				nmm[row][col].classList.add("wall");
+			}
+		}
 	}
 }
