@@ -6,7 +6,7 @@ const resetButton = document.getElementById('resetButton');
 const selectAlgorithm = document.getElementById('selectAlgorithm');
 
 startButton.addEventListener("click", startSearch);
-resetButton.addEventListener("click", clearGrid);
+resetButton.addEventListener("click", resetGrid);
 
 class Coords {
 
@@ -207,7 +207,7 @@ function getNeighborsCoords(currentCoords) {
 	return neighborsCoords;
 }
 
-function clearGrid() {
+function resetGrid() {
 	if (executing) return;
 
 	for (let row of nodeMatrix.matrix) {
