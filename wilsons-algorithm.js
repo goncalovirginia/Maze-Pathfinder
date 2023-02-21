@@ -6,13 +6,13 @@ function wilsonsAlgorithm(rows, cols) {
         maze[i].fill(0);
     }
 
-    let start = randCoord(rows, cols);
+    let start = randOddCoord(rows, cols);
     maze[start[0]][start[1]] = 1;
 
     while (!complete(maze)) {
         let c;
         do {
-            c = randCoord(rows, cols);
+            c = randOddCoord(rows, cols);
         } while (maze[c[0]][c[1]] != 0);
 
         maze[c[0]][c[1]] = 2;
@@ -101,7 +101,7 @@ function complete(maze) {
     return true;
 }
 
-function randCoord(rows, cols) {
+function randOddCoord(rows, cols) {
     let c = new Array(2);
     c[0] = (Math.floor(Math.random() * Math.floor(rows / 2)) * 2) + 1;
     c[1] = (Math.floor(Math.random() * Math.floor(cols / 2)) * 2) + 1;

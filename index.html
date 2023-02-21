@@ -11,6 +11,12 @@
 <body>
 	<h1>Maze Pathfinder</h1>
 	<div id="inputs">
+		<div class='range'>
+			<input id="wallSlider" type="range" min='0' max='100' step='1' value="50"></input>
+			<span id="wallSliderValueDisplay">50</span>
+		</div>
+		<button class="goodButton" id="generateMazeButton">GENERATE MAZE</button>
+		<div class="horizontalSpace"></div>
 		<select class="goodSelect" id="selectAlgorithm">
 			<option value="a*">A* (Manhattan)</option>
 			<option value="a*constant">A* (Manhattan w/ Constant)</option>
@@ -18,9 +24,9 @@
 			<option value="bfs">Breadth-First Search</option>
 			<option value="dfs">Depth-First Search</option>
 		</select>
+		<div class="horizontalSpace"></div>
 		<button class="goodButton" id="startButton">START</button>
 		<button class="goodButton" id="resetButton">RESET</button>
-		<button class="goodButton" id="generateMazeButton">GENERATE MAZE</button>
 	</div>
 	<div id="nodeTableContainer">
 		<table class="nodeTable" id="nodeTable"></table>

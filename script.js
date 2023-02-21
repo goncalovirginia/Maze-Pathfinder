@@ -11,6 +11,15 @@ startButton.addEventListener("click", startSearch);
 resetButton.addEventListener("click", resetGrid);
 generateMazeButton.addEventListener("click", generateMaze);
 
+const wallSlider = document.getElementById("wallSlider");
+const wallSliderValueDisplay = document.getElementById("wallSliderValueDisplay");
+wallSliderValueDisplay.innerHTML = wallSlider.value + "%";
+wallSlider.addEventListener("input", updateWallSliderValueDisplay);
+
+function updateWallSliderValueDisplay() {
+	wallSliderValueDisplay.innerHTML = this.value + "%";
+}
+
 class Coords {
 
 	constructor(row, col) {
@@ -78,6 +87,8 @@ for (let i = 0; i < rows; i++) {
 let startCoords = new Coords(1, 1), endCoords = new Coords(rows - 2, cols - 2);
 updateStartAndEndNodes();
 
+generateMaze();
+
 function mouseIsPressed(e) {
 	let flags = e.buttons !== undefined ? e.buttons : e.which;
 	return (flags & 1) === 1;
@@ -120,7 +131,7 @@ async function startSearch() {
 			break;
 		case "a*constant":
 			await aStar(astar.heuristics.manhattanConstant);
-			break;	
+			break;
 		case "a*cross":
 			await aStar(astar.heuristics.manhattanCrossProduct);
 			break;
@@ -186,7 +197,7 @@ async function aStar(heuristic) {
 	let graph = new Graph(wallMatrix.matrix);
 	let start = graph.grid[startCoords.row][startCoords.col];
 	let end = graph.grid[endCoords.row][endCoords.col];
-	let path = await astar.search(graph, start, end, {heuristic});
+	let path = await astar.search(graph, start, end, { heuristic });
 	path = Array.from(path, gridNode => new Coords(gridNode.x, gridNode.y));
 	await drawPath(path);
 }
@@ -247,9 +258,11 @@ async function drawPath(path) {
 
 function generateMaze() {
 	if (executing) return;
-	resetGrid();
 
-	let wmm = wallMatrix.matrix = wilsonsAlgorithm(rows, cols);
+	resetGrid();
+	let maze = wilsonsAlgorithm(rows, cols);
+	removeRandomWalls(maze);
+	let wmm = wallMatrix.matrix = maze;
 	let nmm = nodeMatrix.matrix;
 
 	for (let row = 0; row < rows; row++) {
@@ -259,4 +272,23 @@ function generateMaze() {
 			}
 		}
 	}
+}
+
+function removeRandomWalls(maze) {
+	let amount = wallSlider.value * 10;
+	for (let i = 0; i < amount; i++) {
+		let c = randCoord(rows, cols);
+		maze[c[0]][c[1]] = 1;
+		maze[c[0]-1][c[1]] = 1;
+		maze[c[0]][c[1]+1] = 1;
+		maze[c[0]+1][c[1]] = 1;
+		maze[c[0]][c[1]-1] = 1;
+	}
+}
+
+function randCoord(rows, cols) {
+    let c = new Array(2);
+    c[0] = Math.floor(Math.random() * (rows - 2) + 1);
+    c[1] = Math.floor(Math.random() * (cols - 2) + 1);
+    return c;
 }

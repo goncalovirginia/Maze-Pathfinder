@@ -9,7 +9,7 @@ body {
 #inputs {
 	display: flex;
 	align-items: center;
- 	justify-content: center;
+	justify-content: center;
 }
 
 .goodButton {
@@ -57,7 +57,7 @@ body {
 #nodeTableContainer {
 	display: flex;
 	align-items: center;
- 	justify-content: center;
+	justify-content: center;
 	margin-top: 40px;
 	margin-bottom: 40px;
 	user-select: none;
@@ -119,4 +119,55 @@ body {
 
 .wall {
 	background-color: rgb(226, 226, 226);
+}
+
+.horizontalSpace {
+	width: 50px;
+	min-width: 50px;
+}
+
+.range {
+	margin-right: 70px;
+	
+}
+
+.range input {
+	appearance: none;
+	width: 100px;
+	height: 4px;
+	border-radius: 5px;
+	background-color: rgb(50, 50, 50);
+	outline: none;
+}
+
+.range input::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: rgb(50, 50, 50);
+}
+
+.range span {
+	position: absolute;
+	margin-left: 14px;
+	width: 50px;
+	height: 30px;
+	background-color: rgb(50, 50, 50);
+	color: #fff;
+	border-radius: 3px;
+	text-align: center;
+	line-height: 30px;
+	transform: translateY(-3px);
+}
+
+.range span:before {
+	content: '';
+	position: absolute;
+	border-right: 9px solid transparent;
+	border-left: 9px solid transparent;
+	border-bottom: 12px solid rgb(50, 50, 50);
+	left: -10px;
+	top: 50%;
+	transform: translateY(-50%) rotate(-90deg);
 }
