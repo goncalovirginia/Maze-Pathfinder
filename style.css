@@ -36,18 +36,42 @@ body {
 	box-shadow: none;
 }
 
+#startButton {
+	background-color: rgba(4, 170, 109);
+    box-shadow: 0 4px 0 rgba(4, 170, 109, 0.5);
+}
+
+#startButton:active {
+	box-shadow: none;
+}
+
+#resetButton {
+	background-color: rgb(226, 43, 43);
+    box-shadow: 0 4px 0 rgba(226, 43, 43, 0.5);
+}
+
+#resetButton:active {
+	box-shadow: none;
+}
+
 .goodSelect {
-	background-color: #f5f5f5;
+	background-color: rgba(0, 0, 0, 0);
+	color: #f5f5f5;
 	font-family: Helvetica;
 	font-size: 16px;
 	height: 40px;
-	width: 200px;
-	margin: 5px;
 	border: 0px;
 	padding: 0px;
 	cursor: pointer;
 	font-weight: bold;
 	user-select: none;
+	border-bottom: 2px solid #f5f5f5;
+}
+
+.goodSelect option {
+	background-color: rgb(25, 25, 25);
+	font-size: 16px;
+	font-weight: bold;
 }
 
 .goodSelect:focus {
@@ -136,8 +160,9 @@ body {
 	width: 100px;
 	height: 4px;
 	border-radius: 5px;
-	background-color: rgb(50, 50, 50);
+	background-color: #f5f5f5;
 	outline: none;
+	cursor: pointer;
 }
 
 .range input::-webkit-slider-thumb {
@@ -145,7 +170,9 @@ body {
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
-	background-color: rgb(50, 50, 50);
+	background-color: #f5f5f5;
+	box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.5);
+	cursor: pointer;
 }
 
 .range span {
@@ -153,8 +180,9 @@ body {
 	margin-left: 14px;
 	width: 50px;
 	height: 30px;
-	background-color: rgb(50, 50, 50);
-	color: #fff;
+	background-color: #f5f5f5;
+	color: #000000;
+	font-weight: bold;
 	border-radius: 3px;
 	text-align: center;
 	line-height: 30px;
@@ -166,7 +194,7 @@ body {
 	position: absolute;
 	border-right: 9px solid transparent;
 	border-left: 9px solid transparent;
-	border-bottom: 12px solid rgb(50, 50, 50);
+	border-bottom: 12px solid #f5f5f5;
 	left: -10px;
 	top: 50%;
 	transform: translateY(-50%) rotate(-90deg);

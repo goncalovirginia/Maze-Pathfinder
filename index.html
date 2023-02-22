@@ -12,12 +12,12 @@
 	<h1>Maze Pathfinder</h1>
 	<div id="inputs">
 		<div class='range'>
-			<input id="wallSlider" type="range" min='0' max='100' step='1' value="50"></input>
-			<span id="wallSliderValueDisplay">50</span>
+			<input id="wallSlider" type="range" min='0' max='100' step='1' value="50" title="Deterioration"></input>
+			<span id="wallSliderValueDisplay"></span>
 		</div>
 		<button class="goodButton" id="generateMazeButton">GENERATE MAZE</button>
 		<div class="horizontalSpace"></div>
-		<select class="goodSelect" id="selectAlgorithm">
+		<select class="goodSelect" id="selectAlgorithm" title="Search Algorithm">
 			<option value="a*">A* (Manhattan)</option>
 			<option value="a*constant">A* (Manhattan w/ Constant)</option>
 			<option value="a*cross">A* (Manhattan w/ Cross-Product)</option>

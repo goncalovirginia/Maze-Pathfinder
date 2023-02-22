@@ -37,7 +37,9 @@ var astar = {
 	*          astar.heuristics).
 	*/
 	search: async function (graph, start, end, options) {
+		let nodeTable = document.getElementById('nodeTable');
 		globalStart = start;
+
 		graph.cleanDirty();
 		options = options || {};
 		var heuristic = options.heuristic || astar.heuristics.manhattan;
@@ -55,7 +57,8 @@ var astar = {
 
 			// Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
 			var currentNode = openHeap.pop();
-			document.getElementById('nodeTable').children[currentNode.x].children[currentNode.y].classList.add("expanded");
+			
+			nodeTable.children[currentNode.x].children[currentNode.y].classList.add("expanded");
 
 			// End case -- result has been found, return the traced path.
 			if (currentNode === end) {
