@@ -31,6 +31,10 @@ class Coords {
 		return this.row == other.row && this.col == other.col;
 	}
 
+	toKey() {
+		return this.row + " " + this.col;
+	}
+
 }
 
 class Matrix {
@@ -123,6 +127,9 @@ async function startSearch() {
 		case "bfs":
 			await bfs();
 			break;
+		case "bibfs":
+			await bidirectionalBfs();
+			break;
 		case "dfs":
 			await dfs();
 			break;
@@ -156,11 +163,10 @@ async function bfs() {
 		}
 
 		for (let neighborCoords of getNeighborsCoords(currentCoords)) {
-			if (!visitedMatrix.get(neighborCoords) &&
-				!nodeMatrix.get(neighborCoords).classList.contains("wall")) {
+			if (!visitedMatrix.get(neighborCoords) && wallMatrix.get(neighborCoords) != 0) {
 				queue.push(neighborCoords);
 				visitedMatrix.set(neighborCoords, true);
-				parent.set(neighborCoords, currentCoords);
+				parent.set(neighborCoords.toKey(), currentCoords);
 				nodeMatrix.get(neighborCoords).classList.add("frontier");
 			}
 		}
@@ -181,11 +187,59 @@ async function dfs() {
 		}
 
 		for (let neighborCoords of getNeighborsCoords(currentCoords)) {
-			if (!visitedMatrix.get(neighborCoords) &&
-				!nodeMatrix.get(neighborCoords).classList.contains("wall")) {
+			if (!visitedMatrix.get(neighborCoords) && wallMatrix.get(neighborCoords) != 0) {
 				stack.push(neighborCoords);
 				visitedMatrix.set(neighborCoords, true);
-				parent.set(neighborCoords, currentCoords);
+				parent.set(neighborCoords.toKey(), currentCoords);
+				nodeMatrix.get(neighborCoords).classList.add("frontier");
+			}
+		}
+		await sleep(delay);
+	}
+}
+
+async function bidirectionalBfs() {
+	let startQueue = [startCoords], endQueue = [endCoords];
+	let startParent = new Map(), endParent = new Map();
+	let endVisitedMatrix = new Matrix();
+	endVisitedMatrix.set(endCoords, true);
+	let startQueueTurn = false;
+
+	while (startQueue.length > 0 || endQueue.length > 0) {
+		startQueueTurn = !startQueueTurn;
+
+		if ((startQueueTurn && startQueue.length == 0) || 
+			(!startQueueTurn && endQueue.length == 0)) {
+			continue;
+		}
+
+		let currentCoords = startQueueTurn ? startQueue.shift() : endQueue.shift();
+		nodeMatrix.get(currentCoords).classList.add("expanded");
+
+		if ((startQueueTurn && endVisitedMatrix.get(currentCoords)) ||
+			(!startQueueTurn && visitedMatrix.get(currentCoords))) {
+			let startToCurrent = backtrace(startParent, currentCoords);
+			let currentToEnd = backtrace(endParent, currentCoords).reverse();
+			currentToEnd.shift();
+			await drawPath(startToCurrent.concat(currentToEnd));
+			break;
+		}
+
+		let currQueue = startQueue;
+		let currVisitedMatrix = visitedMatrix;
+		let currParent = startParent;
+
+		if (!startQueueTurn) {
+			currQueue = endQueue;
+			currVisitedMatrix = endVisitedMatrix;
+			currParent = endParent;
+		}
+
+		for (let neighborCoords of getNeighborsCoords(currentCoords)) {
+			if (!currVisitedMatrix.get(neighborCoords) && wallMatrix.get(neighborCoords) != 0) {
+				currQueue.push(neighborCoords);
+				currVisitedMatrix.set(neighborCoords, true);
+				currParent.set(neighborCoords.toKey(), currentCoords);
 				nodeMatrix.get(neighborCoords).classList.add("frontier");
 			}
 		}
@@ -240,10 +294,10 @@ function sleep(ms) {
 }
 
 function backtrace(parent, lastCoords) {
-	let path = [lastCoords];
+	let path = [lastCoords], p;
 
-	while (!path[path.length - 1].equals(startCoords)) {
-		path.push(parent.get(path[path.length - 1]));
+	while ((p = parent.get(path[path.length - 1].toKey())) != undefined) {
+		path.push(p);
 	}
 
 	return path.reverse();
