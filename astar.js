@@ -44,6 +44,7 @@ var astar = {
 	search: async function (graph, start, end, options) {
 		let nodeTable = document.getElementById('nodeTable');
 		globalStart = start;
+		expandedNodes = 0;
 
 		graph.cleanDirty();
 		options = options || {};

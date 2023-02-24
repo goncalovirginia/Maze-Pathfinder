@@ -93,7 +93,7 @@ function incrementExpandedNodesDisplay() {
 }
 
 function resetExpandedNodesDisplay() {
-	expandedNodesDisplay.innerHTML = 0;
+	expandedNodesDisplay.innerHTML = expandedNodes = 0;
 }
 
 resetMatrixes();
