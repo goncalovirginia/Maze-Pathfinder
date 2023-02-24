@@ -128,7 +128,11 @@ body {
 .frontier {
 	border-radius: 40%;
 	background-color: #8cb4ff;
-	transition: border-radius 0.1s ease-out;
+    animation-name: frontierPulse;
+    animation-duration: 0.2s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+
 }
 
 .expanded {
@@ -137,8 +141,35 @@ body {
 	transition: border-radius 0.1s ease-out;
 }
 
+@keyframes frontierPulse {
+	50% {
+		transform: scale(1.25);
+		filter: brightness(1.5);
+	}
+	100% {
+		transform: scale(1);
+		filter: brightness(1);
+		border-radius: 40%;
+	}
+}
+
 .path {
 	background-color: #FFD700;
+	animation-name: pathPulse;
+    animation-duration: 0.2s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+}
+
+@keyframes pathPulse {
+	50% {
+		transform: scale(1.25);
+		filter: brightness(1.5);
+	}
+	100% {
+		transform: scale(1);
+		filter: brightness(1);
+	}
 }
 
 .wall {
