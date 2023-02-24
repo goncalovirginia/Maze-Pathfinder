@@ -16,6 +16,7 @@ const resetButton = document.getElementById('resetButton');
 const selectPathfindingAlgorithm = document.getElementById('selectPathfindingAlgorithm');
 const generateMazeButton = document.getElementById('generateMazeButton');
 const selectMazeGenerationAlgorithm = document.getElementById('selectMazeGenerationAlgorithm');
+const expandedNodesDisplay = document.getElementById('expandedNodesDisplay');
 
 startButton.addEventListener("click", startSearch);
 resetButton.addEventListener("click", resetGrid);
@@ -78,9 +79,22 @@ class Matrix {
 let delay = 4;
 let executing = false;
 let needsClear = false;
+let expandedNodes = 0;
 
-let rows = 35, cols = 81;
+let rows = toOdd((window.innerHeight - 210) / 20), cols = toOdd((window.innerWidth - 20) / 20);
 let nodeMatrix = new Matrix(), visitedMatrix = new Matrix(), wallMatrix = new Matrix();
+
+function toOdd(number) {
+	return Math.floor(number / 2) * 2 - 1;
+}
+
+function incrementExpandedNodesDisplay() {
+	expandedNodesDisplay.innerHTML = ++expandedNodes;
+}
+
+function resetExpandedNodesDisplay() {
+	expandedNodesDisplay.innerHTML = 0;
+}
 
 resetMatrixes();
 
@@ -115,8 +129,17 @@ function addWallClassToNode(e) {
 }
 
 function updateStartAndEndNodes() {
+	let startImg = document.createElement("img");
+	startImg.setAttribute("src", "./icons/start.svg");
+	startImg.setAttribute("class", "startNode");
 	nodeMatrix.get(startCoords).setAttribute("id", "startNode");
+	nodeMatrix.get(startCoords).appendChild(startImg);
+
+	let endImg = document.createElement("img");
+	endImg.setAttribute("src", "./icons/end.svg");
+	endImg.setAttribute("class", "endNode");
 	nodeMatrix.get(endCoords).setAttribute("id", "endNode");
+	nodeMatrix.get(endCoords).appendChild(endImg);
 }
 
 function resetMatrixes() {
@@ -193,6 +216,7 @@ async function bfs() {
 	while (queue.length > 0) {
 		let currentCoords = queue.shift();
 		nodeMatrix.get(currentCoords).classList.add("expanded");
+		incrementExpandedNodesDisplay();
 
 		if (currentCoords.equals(endCoords)) {
 			await drawPath(backtrace(parent, currentCoords));
@@ -217,6 +241,7 @@ async function dfs() {
 	while (stack.length > 0) {
 		let currentCoords = stack.pop();
 		nodeMatrix.get(currentCoords).classList.add("expanded");
+		incrementExpandedNodesDisplay();
 
 		if (currentCoords.equals(endCoords)) {
 			await drawPath(backtrace(parent, currentCoords));
@@ -252,6 +277,7 @@ async function bidirectionalBfs() {
 
 		let currentCoords = startQueueTurn ? startQueue.shift() : endQueue.shift();
 		nodeMatrix.get(currentCoords).classList.add("expanded");
+		incrementExpandedNodesDisplay();
 
 		if ((startQueueTurn && endVisitedMatrix.get(currentCoords)) ||
 			(!startQueueTurn && visitedMatrix.get(currentCoords))) {
@@ -290,6 +316,7 @@ async function aStar(heuristic) {
 	let end = graph.grid[endCoords.row][endCoords.col];
 	let path = await astar.search(graph, start, end, { heuristic });
 	path = Array.from(path, gridNode => new Coords(gridNode.x, gridNode.y));
+	if (path.length > 0) path.unshift(startCoords);
 	await drawPath(path);
 }
 
@@ -324,6 +351,7 @@ function resetGrid() {
 
 	resetMatrixes();
 	needsClear = false;
+	resetExpandedNodesDisplay();
 }
 
 function sleep(ms) {
@@ -336,6 +364,8 @@ function backtrace(parent, lastCoords) {
 	while ((p = parent.get(path[path.length - 1].toKey())) != undefined) {
 		path.push(p);
 	}
+
+	path.push(startCoords);
 
 	return path.reverse();
 }
@@ -368,7 +398,7 @@ function generateMaze() {
 }
 
 function removeRandomWalls(maze) {
-	let amount = wallSlider.value * 10;
+	let amount = (wallSlider.value * rows * cols) / 200;
 	for (let i = 0; i < amount; i++) {
 		let c = randCoord(rows, cols);
 		maze[c[0]][c[1]] = 1;

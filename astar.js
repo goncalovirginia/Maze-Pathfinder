@@ -21,7 +21,12 @@ function getHeap() {
 	});
 }
 
-let globalStart;
+let globalStart, expandedNodes = 0;
+const expandedNodesDisplay = document.getElementById('expandedNodesDisplay');
+
+function incrementExpandedNodesDisplay() {
+	expandedNodesDisplay.innerHTML = ++expandedNodes;
+}
 
 var astar = {
 
@@ -59,6 +64,7 @@ var astar = {
 			var currentNode = openHeap.pop();
 			
 			nodeTable.children[currentNode.x].children[currentNode.y].classList.add("expanded");
+			incrementExpandedNodesDisplay();
 
 			// End case -- result has been found, return the traced path.
 			if (currentNode === end) {

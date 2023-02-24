@@ -6,10 +6,53 @@ body {
 	background-color: rgb(15, 15, 15);
 }
 
-#inputs {
+#navbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: left;
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+#title {
+	min-width: 200px;
+	margin: 0px;
+	margin-right: 100px;
+	padding: 5px;
+	border-radius: 5px;
+	color: rgba(15, 15, 15);
+	background: linear-gradient(-30deg, #ee7752, #e73c7e, #761bdd, #235bd5);
+	background-size: 400% 400%;
+	animation: gradient 30s ease infinite;
+	cursor: pointer;
+	user-select: none;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+#mazeControls {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: left;
+	margin-right: 100px;
+}
+
+#pathfindingControls {
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	margin-right: 100px;
 }
 
 .goodButton {
@@ -37,7 +80,7 @@ body {
 }
 
 #startButton {
-	background-color: rgba(4, 170, 109);
+	background-color: rgb(4, 170, 109);
     box-shadow: 0 4px 0 rgba(4, 170, 109, 0.5);
 }
 
@@ -115,14 +158,18 @@ body {
 	background-color: rgb(50, 50, 50);
 }
 
-#startNode {
-	border-radius: 0%;
-	background-color: rgb(0, 200, 0);
+.startNode {
+	display: block;
+	margin: auto;
+	user-select: none;
+	pointer-events: none;
 }
 
-#endNode {
-	border-radius: 0%;
-	background-color: rgb(200, 0, 0);
+.endNode {
+	display: block;
+	margin: auto;
+	user-select: none;
+	pointer-events: none;
 }
 
 .frontier {
@@ -132,6 +179,7 @@ body {
 }
 
 .expanded {
+	border-radius: 40%;
 	background-color: #4b7afd;
 }
 
@@ -202,4 +250,40 @@ body {
 #selectMazeGenerationAlgorithm {
 	margin-left: 10px;
 	margin-right: 10px;
+}
+
+#selectPathfindingAlgorithm {
+	margin-right: 10px;
+}
+
+#stats {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	margin-top: 25px;
+}
+
+.statBox {
+	display: grid;
+	grid-template-rows: 40% 60%;
+	height: 100px;
+	width: 100px;
+	border-radius: 10%;
+	background-color: rgb(25, 25, 25);
+	margin: 10px;
+}
+
+.statBoxTitle {
+	margin-top: auto;
+	margin-bottom: auto;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.statBoxContent {
+	margin-top: auto;
+	margin-bottom: auto;
+	font-weight: bold;
+	font-size: 32px;
 }
