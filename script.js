@@ -13,7 +13,7 @@ import "./maze-generation-algorithms/aldous-broder.js";
 const grid = document.getElementById('nodeTable');
 const startButton = document.getElementById('startButton');
 const resetButton = document.getElementById('resetButton');
-const selectPathfindingAlgorithm = document.getElementById('selectPathFindingAlgorithm');
+const selectPathfindingAlgorithm = document.getElementById('selectPathfindingAlgorithm');
 const generateMazeButton = document.getElementById('generateMazeButton');
 const selectMazeGenerationAlgorithm = document.getElementById('selectMazeGenerationAlgorithm');
 
