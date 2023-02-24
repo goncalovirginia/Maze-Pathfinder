@@ -146,8 +146,8 @@ body {
 }
 
 .horizontalSpace {
-	width: 50px;
-	min-width: 50px;
+	width: 100px;
+	min-width: 100px;
 }
 
 .range {
@@ -187,6 +187,7 @@ body {
 	text-align: center;
 	line-height: 30px;
 	transform: translateY(-3px);
+	user-select: none;
 }
 
 .range span:before {
@@ -198,4 +199,9 @@ body {
 	left: -10px;
 	top: 50%;
 	transform: translateY(-50%) rotate(-90deg);
+}
+
+#selectMazeGenerationAlgorithm {
+	margin-left: 10px;
+	margin-right: 10px;
 }

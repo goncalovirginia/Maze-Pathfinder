@@ -1,11 +1,21 @@
 import "./astar.js";
-import "./wilsons-algorithm.js";
+import "./maze-generation-algorithms/wilsons.js";
+import "./maze-generation-algorithms/recursive-division.js";
+import "./maze-generation-algorithms/sidewinder.js";
+import "./maze-generation-algorithms/prims.js";
+import "./maze-generation-algorithms/kruskals.js";
+import "./maze-generation-algorithms/hunt-and-kill.js";
+import "./maze-generation-algorithms/ellers.js";
+import "./maze-generation-algorithms/binary-tree.js";
+import "./maze-generation-algorithms/backtracking.js";
+import "./maze-generation-algorithms/aldous-broder.js";
 
 const grid = document.getElementById('nodeTable');
 const startButton = document.getElementById('startButton');
 const resetButton = document.getElementById('resetButton');
-const selectAlgorithm = document.getElementById('selectAlgorithm');
+const selectPathfindingAlgorithm = document.getElementById('selectPathFindingAlgorithm');
 const generateMazeButton = document.getElementById('generateMazeButton');
+const selectMazeGenerationAlgorithm = document.getElementById('selectMazeGenerationAlgorithm');
 
 startButton.addEventListener("click", startSearch);
 resetButton.addEventListener("click", resetGrid);
@@ -117,13 +127,40 @@ function resetMatrixes() {
 	}
 }
 
+function getMazeGenerationAlgorithm() {
+	switch (selectMazeGenerationAlgorithm.value) {
+		case "wilsons":
+			return wilsons;
+		case "binary-tree":
+			return binaryTree;
+		case "aldous-broder":
+			return aldousBroder;
+		case "backtracking":
+			return backtracking;
+		case "ellers":
+			return ellers;
+		case "hunt-and-kill":
+			return huntAndKill;
+		case "kruskals":
+			return kruskals;
+		case "prims":
+			return prims;
+		case "recursive-division":
+			return recursiveDivision;
+		case "sidewinder":
+			return sidewinder;
+		default:
+			alert("Somehow no maze generation algorithm was selected.")
+	}
+}
+
 async function startSearch() {
 	if (needsClear) return;
 
 	executing = true;
 	visitedMatrix.set(startCoords, true);
 
-	switch (selectAlgorithm.value) {
+	switch (selectPathfindingAlgorithm.value) {
 		case "bfs":
 			await bfs();
 			break;
@@ -143,7 +180,7 @@ async function startSearch() {
 			await aStar(astar.heuristics.manhattanCrossProduct);
 			break;
 		default:
-			alert("Somehow no search algorithm was selected.")
+			alert("Somehow no pathfinding algorithm was selected.")
 	}
 
 	executing = false;
@@ -314,8 +351,10 @@ function generateMaze() {
 	if (executing) return;
 
 	resetGrid();
-	let maze = wilsonsAlgorithm(rows, cols);
+	let mazeGenerationAlgorithm = getMazeGenerationAlgorithm();
+	let maze = mazeGenerationAlgorithm(rows, cols);
 	removeRandomWalls(maze);
+
 	let wmm = wallMatrix.matrix = maze;
 	let nmm = nodeMatrix.matrix;
 

@@ -1,4 +1,4 @@
-function wilsonsAlgorithm(rows, cols) {
+function wilsons(rows, cols) {
     let maze = new Array(rows);
 
     for (let i = 0; i < rows; i++) {
