@@ -92,7 +92,7 @@ var astar = {
 				var beenVisited = neighbor.visited;
 
 				if (!beenVisited || gScore < neighbor.g) {
-					document.getElementById('nodeTable').children[neighbor.x].children[neighbor.y].classList.add("frontier");
+					nodeTable.children[neighbor.x].children[neighbor.y].classList.add("frontier");
 
 					// Found an optimal (so far) path to this node.  Take score for node to see how good it is.
 					neighbor.visited = true;
