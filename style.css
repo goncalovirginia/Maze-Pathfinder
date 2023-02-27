@@ -1,9 +1,14 @@
+:root {
+	--node-px: 20px;
+  }
+
 html,
 body {
 	text-align: center;
 	font-family: Helvetica;
 	color: rgb(255, 255, 255);
 	background-color: rgb(15, 15, 15);
+	margin: 0px;
 }
 
 #navbar {
@@ -13,6 +18,7 @@ body {
 	justify-content: left;
 	margin-top: 10px;
 	margin-left: 20px;
+	margin-bottom: 10px;
 }
 
 #title {
@@ -125,24 +131,22 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-top: 40px;
 	user-select: none;
 }
 
 .nodeTable {
 	border-collapse: collapse;
 	user-select: none;
-	box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.5)
 }
 
 .node {
 	padding: 0px;
 	margin: 0px;
 	border: none;
-	height: 20px;
-	width: 20px;
-	min-height: 20px;
-	min-width: 20px;
+	height: var(--node-px);
+	width: var(--node-px);
+	min-height: var(--node-px);
+	min-width: var(--node-px);
 }
 
 .node:hover {

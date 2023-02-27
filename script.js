@@ -16,7 +16,7 @@ const resetButton = document.getElementById('resetButton');
 const selectPathfindingAlgorithm = document.getElementById('selectPathfindingAlgorithm');
 const generateMazeButton = document.getElementById('generateMazeButton');
 const selectMazeGenerationAlgorithm = document.getElementById('selectMazeGenerationAlgorithm');
-const expandedNodesDisplay = document.getElementById('expandedNodesDisplay');
+//const expandedNodesDisplay = document.getElementById('expandedNodesDisplay');
 
 startButton.addEventListener("click", startSearch);
 resetButton.addEventListener("click", resetGrid);
@@ -81,13 +81,16 @@ let executing = false;
 let needsClear = false;
 let expandedNodes = 0;
 
-let rows = toOdd((window.innerHeight - 210) / 20), cols = toOdd((window.innerWidth - 20) / 20);
+const NODE_PX = 20;
+let navbarHeight = document.getElementById('navbar').clientHeight;
+
+let rows = toOdd((window.innerHeight - navbarHeight) / NODE_PX), cols = toOdd((window.innerWidth) / NODE_PX);
 let nodeMatrix = new Matrix(), visitedMatrix = new Matrix(), wallMatrix = new Matrix();
 
 function toOdd(number) {
 	return Math.floor(number / 2) * 2 - 1;
 }
-
+/*
 function incrementExpandedNodesDisplay() {
 	expandedNodesDisplay.innerHTML = ++expandedNodes;
 }
@@ -95,6 +98,7 @@ function incrementExpandedNodesDisplay() {
 function resetExpandedNodesDisplay() {
 	expandedNodesDisplay.innerHTML = expandedNodes = 0;
 }
+*/
 
 resetMatrixes();
 
@@ -351,7 +355,7 @@ function resetGrid() {
 
 	resetMatrixes();
 	needsClear = false;
-	resetExpandedNodesDisplay();
+	//resetExpandedNodesDisplay();
 }
 
 function sleep(ms) {
