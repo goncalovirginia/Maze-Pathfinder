@@ -16,7 +16,6 @@ const resetButton = document.getElementById('resetButton');
 const selectPathfindingAlgorithm = document.getElementById('selectPathfindingAlgorithm');
 const generateMazeButton = document.getElementById('generateMazeButton');
 const selectMazeGenerationAlgorithm = document.getElementById('selectMazeGenerationAlgorithm');
-//const expandedNodesDisplay = document.getElementById('expandedNodesDisplay');
 
 startButton.addEventListener("click", startSearch);
 resetButton.addEventListener("click", resetGrid);
@@ -90,15 +89,6 @@ let nodeMatrix = new Matrix(), visitedMatrix = new Matrix(), wallMatrix = new Ma
 function toOdd(number) {
 	return Math.floor(number / 2) * 2 - 1;
 }
-/*
-function incrementExpandedNodesDisplay() {
-	expandedNodesDisplay.innerHTML = ++expandedNodes;
-}
-
-function resetExpandedNodesDisplay() {
-	expandedNodesDisplay.innerHTML = expandedNodes = 0;
-}
-*/
 
 resetMatrixes();
 
@@ -220,7 +210,6 @@ async function bfs() {
 	while (queue.length > 0) {
 		let currentCoords = queue.shift();
 		nodeMatrix.get(currentCoords).classList.add("expanded");
-		incrementExpandedNodesDisplay();
 
 		if (currentCoords.equals(endCoords)) {
 			await drawPath(backtrace(parent, currentCoords));
@@ -245,7 +234,6 @@ async function dfs() {
 	while (stack.length > 0) {
 		let currentCoords = stack.pop();
 		nodeMatrix.get(currentCoords).classList.add("expanded");
-		incrementExpandedNodesDisplay();
 
 		if (currentCoords.equals(endCoords)) {
 			await drawPath(backtrace(parent, currentCoords));
@@ -281,7 +269,6 @@ async function bidirectionalBfs() {
 
 		let currentCoords = startQueueTurn ? startQueue.shift() : endQueue.shift();
 		nodeMatrix.get(currentCoords).classList.add("expanded");
-		incrementExpandedNodesDisplay();
 
 		if ((startQueueTurn && endVisitedMatrix.get(currentCoords)) ||
 			(!startQueueTurn && visitedMatrix.get(currentCoords))) {
@@ -355,7 +342,6 @@ function resetGrid() {
 
 	resetMatrixes();
 	needsClear = false;
-	//resetExpandedNodesDisplay();
 }
 
 function sleep(ms) {
