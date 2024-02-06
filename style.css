@@ -12,19 +12,26 @@ body {
 }
 
 #navbar {
+	width: fit-content;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	justify-content: left;
-	margin-top: 10px;
-	margin-left: 20px;
-	margin-bottom: 10px;
+	justify-content: center;
+	margin-top: 20px;
+	margin-bottom: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: rgb(25, 25, 25);
 }
 
 #title {
 	min-width: 200px;
 	margin: 0px;
-	margin-right: 100px;
+	margin-left: 40px;
+	margin-right: 40px;
 	padding: 5px;
 	border-radius: 5px;
 	color: rgba(15, 15, 15);
@@ -50,15 +57,17 @@ body {
 #mazeControls {
 	display: flex;
 	align-items: center;
-	justify-content: left;
-	margin-right: 100px;
+	justify-content: center;
+	margin-left: 40px;
+	margin-right: 40px;
 }
 
 #pathfindingControls {
 	display: flex;
 	align-items: center;
-	justify-content: left;
-	margin-right: 100px;
+	justify-content: center;
+	margin-left: 40px;
+	margin-right: 40px;
 }
 
 .goodButton {
@@ -85,6 +94,16 @@ body {
 	box-shadow: none;
 }
 
+#generateMazeButton {
+	background-color: rgb(224, 203, 11);
+    box-shadow: 0 4px 0 rgba(224, 203, 11, 0.5);
+}
+
+#generateMazeButton:active {
+	box-shadow: none;
+}
+
+
 #startButton {
 	background-color: rgb(4, 170, 109);
     box-shadow: 0 4px 0 rgba(4, 170, 109, 0.5);
@@ -108,7 +127,7 @@ body {
 	color: #f5f5f5;
 	font-family: Helvetica;
 	font-size: 16px;
-	height: 40px;
+	height: 30px;
 	border: 0px;
 	padding: 0px;
 	cursor: pointer;
@@ -150,7 +169,7 @@ body {
 }
 
 .node:hover {
-	filter: brightness(3);
+	background-color: rgb(226, 226, 226);
 }
 
 .even {
@@ -201,7 +220,6 @@ body {
 
 .range {
 	margin-right: 70px;
-	
 }
 
 .range input {
@@ -250,11 +268,6 @@ body {
 	transform: translateY(-50%) rotate(-90deg);
 }
 
-#selectMazeGenerationAlgorithm {
-	margin-left: 10px;
-	margin-right: 10px;
-}
-
 #selectPathfindingAlgorithm {
 	margin-right: 10px;
 }
@@ -289,4 +302,16 @@ body {
 	margin-bottom: auto;
 	font-weight: bold;
 	font-size: 32px;
+}
+
+.navbarInfo {
+	height: 20px;
+	font-weight: bold;
+	font-size: 13px;
+	text-align: left;
+}
+
+#mazeGenerationAlgorithmContainer {
+	margin-left: 10px;
+	margin-right: 10px;
 }

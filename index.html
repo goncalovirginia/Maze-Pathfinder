@@ -13,25 +13,33 @@
 		<h2 id="title" onClick="window.location.reload();">Maze Pathfinder</h2>
 		<div id="mazeControls">
 			<div class='range'>
-				<input id="wallSlider" type="range" min='0' max='100' step='1' value="50" title="Deterioration"></input>
-				<span id="wallSliderValueDisplay">50%</span>
+				<div class="navbarInfo"> Maze Deterioration</div>
+				<div>
+					<input id="wallSlider" type="range" min='0' max='100' step='1' value="25"></input>
+					<span id="wallSliderValueDisplay">50%</span>
+				</div>
 			</div>
-			<select class="goodSelect" id="selectMazeGenerationAlgorithm" title="Maze Generation Algorithm">
-				<option value="wilsons">Wilson's</option>
-				<option value="binary-tree">Binary Tree</option>
-				<option value="aldous-broder">Aldous-Broder</option>
-				<option value="backtracking">Backtracking</option>
-				<option value="ellers">Eller's</option>
-				<option value="hunt-and-kill">Hunt and Kill</option>
-				<option value="kruskals">Kruskal's</option>
-				<option value="prims">Prim's</option>
-				<option value="recursive-division">Recursive Division</option>
-				<option value="sidewinder">Sidewinder</option>
-			</select>
+			<div id="mazeGenerationAlgorithmContainer">
+				<div class="navbarInfo">Maze Generation Algorithm</div>
+				<select class="goodSelect" id="selectMazeGenerationAlgorithm">
+					<option value="wilsons">Wilson's</option>
+					<option value="binary-tree">Binary Tree</option>
+					<option value="aldous-broder">Aldous-Broder</option>
+					<option value="backtracking">Backtracking</option>
+					<option value="ellers">Eller's</option>
+					<option value="hunt-and-kill">Hunt and Kill</option>
+					<option value="kruskals">Kruskal's</option>
+					<option value="prims">Prim's</option>
+					<option value="recursive-division">Recursive Division</option>
+					<option value="sidewinder">Sidewinder</option>
+				</select>
+			</div>
 			<button class="goodButton" id="generateMazeButton">GENERATE MAZE</button>
 		</div>
 		<div id="pathfindingControls">
-			<select class="goodSelect" id="selectPathfindingAlgorithm" title="Pathfinding Algorithm">
+			<div>
+			<div class="navbarInfo">Pathfinding Algorithm</div>
+			<select class="goodSelect" id="selectPathfindingAlgorithm">
 				<option value="a*">A* (Manhattan)</option>
 				<option value="a*constant">A* (Manhattan w/ Constant)</option>
 				<option value="a*cross">A* (Manhattan w/ Cross-Product)</option>
@@ -39,6 +47,7 @@
 				<option value="bibfs">Bidirectional Breadth-First Search</option>
 				<option value="dfs">Depth-First Search</option>
 			</select>
+			</div>
 			<button class="goodButton" id="startButton">START</button>
 			<button class="goodButton" id="resetButton">RESET</button>
 		</div>

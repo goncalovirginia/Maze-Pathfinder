@@ -83,7 +83,7 @@ let expandedNodes = 0;
 const NODE_PX = 20;
 let navbarHeight = document.getElementById('navbar').clientHeight;
 
-let rows = toOdd((window.innerHeight - navbarHeight) / NODE_PX), cols = toOdd((window.innerWidth) / NODE_PX);
+let rows = toOdd((window.innerHeight - navbarHeight - 40) / NODE_PX), cols = toOdd((window.innerWidth - 80) / NODE_PX);
 let nodeMatrix = new Matrix(), visitedMatrix = new Matrix(), wallMatrix = new Matrix();
 
 function toOdd(number) {
